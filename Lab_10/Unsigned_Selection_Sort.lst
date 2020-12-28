@@ -1,0 +1,49 @@
+
+as12, an absolute assembler for Motorola MCU's, version 1.2h
+
+                        ; Unsigned_Selection_Sort.asm
+                        ; Author:       Trung Tang
+                        ; S/N:          040874030
+                        ; Date:         April 12 2018
+                        
+                        ; Purpose:      To order the array with Selection Sort
+                        
+2000                    STACK   equ     $2000
+                        
+1000                            org     $1000
+                        
+1000                    Address ds      2                       ; Address is location of lower found card
+1002 08 04 05 0e 09 09  Cards   db      $08, $04, $05, $0e, $09, $09, $05, $08, $08, $0d
+     05 08 08 0d
+100c                    CardsEnd
+                        
+                        
+2000                            org     $2000
+2000 cf 20 00           Start   lds     #STACK                  ; Load stack
+                                        
+2003 ce 10 02                   ldx     #Cards                  ; Assign array to x pointer
+2006 a6 00              LoopOne ldaa    0,x                     ; Load card into A
+2008 b7 56                      tfr     x y                     ; Transfer pointer X to Y
+                        
+200a e6 41              LoopTwo ldab    1,y                     ; Load next array value into B
+200c 8d 10 0c                   cpy     #CardsEnd               ; Compare Y pointer to final card pointer
+200f 27 0f                      beq     Skip                    ; Branch if equal to final card
+2011 a1 70                      cmpa    1,y+                    ; Compare A to next card at Y pointer, and then increment
+2013 25 f5                      blo     LoopTwo                 ; Branch if card is less than at A
+2015 03                         dey                             ; Decrement Y
+2016 7d 10 00                   sty     Address                 ; Store address of found lower number as pointer
+2019 a6 70                      ldaa    1,y+                    ; Load A with value, then increment
+201b 8d 10 0c                   cpy     #CardsEnd               ; Compare Y to final card pointer
+201e 26 ea                      bne     LoopTwo                 ; Branch if Y equals final card pointer
+                        
+2020 fd 10 00           Skip    ldy     Address                 ; Load Y pointer at found card address
+2023 e6 00                      ldab    0,x                     ; Load B from X, which is initial card
+2025 6a 30                      staa    1,x+                    ; Store A at initial card pointer
+2027 6b 40                      stab    0,y                     ; Store B at found card address
+2029 8e 10 0c                   cpx     #CardsEnd               ; Branch if X equals final card pointer
+202c 26 d8                      bne     LoopOne                 ; Branch if not equal to final card pointer
+                                end
+
+Executed: Fri Dec 06 08:28:38 2019
+Total cycles: 45, Total bytes: 56
+Total errors: 0, Total warnings: 0

@@ -1,0 +1,38 @@
+
+as12, an absolute assembler for Motorola MCU's, version 1.2h
+
+                        ;Exchange_Elemenets.asm
+                        ;
+                        ; Author:               Aria Gomes
+                        ; Student Number:       040-878-659
+                        ; Date:                 November 22 2019
+                        ; Purpose:              To order the array with Selection Sort
+                        
+1000                                org $1000  		; Sets the origin of the memory to $1000
+1000 21 6e 75 46 20 73  Elements    db  033, 110, 117, 070, 032, 115, 105, 032, 101, 103, 097
+     69 20 65 67 61
+100b 75 67 6e 61 4c 20              db  117, 103, 110, 097, 076, 032, 121, 108, 098, 109, 101
+     79 6c 62 6d 65
+1016 73 73 41                       db  115, 115, 065 	; Array called elements, ends at endelements
+1019                    EndElements
+0019                    Len         equ EndElements-Elements ; sizeof() = Length of the array
+                        
+2000                    STACK       equ $2000           ; Gives STACK the Hexadecimal value of $2000
+2000                                org STACK           ; Sets the origin of the memory to STACK
+2000 cf 20 00                       lds #STACK          ; Load stack pointer
+2003 ce 10 00                       ldx #Elements       ; Assign array to x pointer
+2006 cd 10 18                       ldy #Elements+Len-1 ; Load Y pointer at found Element address
+2009 e6 00              START       ldab 0,x 		; Load next array value into B with value of X
+200b a6 40                          ldaa 0,y  		; Load next array value into B with value of Y
+200d 6a 30                          staa 1,x+ 		; Store A at initial Element pointer
+200f 6b 7f                          stab 1,y- 		; Store B at found Element address
+2011 87                             clra     		; Clears A accumulator
+2012 c7                             clrb      		; Clears B accumulator
+100c                    CHECK       equ  $100C 		; Gives CHECK the Hexadecimal value of $100C
+2013 8e 10 0c                       cpx #CHECK 		; Branch if X equals final Element pointer
+2016 26 f1                          bne START 		; Branch if not equal to final Element pointer
+                                    end 		; End of program
+
+Executed: Fri Dec 06 08:02:56 2019
+Total cycles: 21, Total bytes: 49
+Total errors: 0, Total warnings: 0

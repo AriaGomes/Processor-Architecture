@@ -1,0 +1,33 @@
+
+as12, an absolute assembler for Motorola MCU's, version 1.2h
+
+                        ; 18W_Trace1.asm
+                        
+1000                    	org     $1000
+1000 55 19 35 08        Data1   db      $55, $19, $35, $08
+1004 00 ff 10 01 e7 9e  Data2   db      $00, $FF, $10, $01, $E7, $9E, $8F, $31
+     8f 31
+                        
+2000                            org     $2000
+2000 cf 20 00                   lds     #$2000          ; SP =? _____$2000______<=example answer
+                        
+2003 cd 10 00                   ldy     #Data1          ; y = ? ________________(1 mark)
+                                
+2006 e6 44                      ldab    4,y             ; B = ? ________________ (1 mark)
+                                
+2008 a6 70                      ldaa 	1,y+            ; A = ? ________________ (1 mark)
+                                
+200a e6 40                      ldab    0,y             ; B = ? ________________ (1 mark)
+                                
+200c ce 10 04                   ldx     #Data2          ; X = ? ________________ (1 mark)
+                                
+200f ec 35                      ldd     6,x+            ; D = ? ________________ (1 mark)
+                                
+2011 6c 31                      std     2,x+            ; X = ? ________________ (1 mark)
+                                
+2013 3f                         swi
+                                end
+
+Executed: Fri Nov 15 13:00:59 2019
+Total cycles: 30, Total bytes: 32
+Total errors: 0, Total warnings: 0

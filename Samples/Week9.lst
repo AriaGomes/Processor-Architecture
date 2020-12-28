@@ -1,0 +1,24 @@
+
+as12, an absolute assembler for Motorola MCU's, version 1.2h
+
+                        ; Copys 8 bit values
+                        
+                        
+                        
+1000                    	   org        $1000
+1000 12 34              Source     db       $12,$34
+                        
+1020                               org        $1020
+1020                    Dest       ds         2
+                        
+2000                               org        $2000
+2000 b6 10 00                      ldaa       Source
+2003 7a 10 20                      staa       Dest
+2006 b6 10 01                      ldaa       Source+1
+2009 7a 10 21                      staa       Dest+1
+200c 3f                            swi
+                                   end
+
+Executed: Mon Nov 04 13:03:35 2019
+Total cycles: 30, Total bytes: 15
+Total errors: 0, Total warnings: 0
